@@ -1,3 +1,9 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  devise_for :users
+  resources :posts do
+    resources :likes
+  end
+  root to: 'home#index'
+  get '/home', to: 'home#index'
+  get '/wall', to: 'home#wall'
 end

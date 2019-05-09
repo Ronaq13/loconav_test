@@ -1,0 +1,32 @@
+<div class="card-group">
+    <% posts.each do |post| %>
+        <div class="card">
+            <p>
+                <strong>Title:</strong>
+                <%= post.title %>
+            </p>
+
+            <p>
+                <strong>Body:</strong>
+                <%= post.body %>
+            </p>
+
+
+            <p><%= post.likes.count %> <%= (post.likes.count) == 1 ? 'Like' : 'Likes'%></p>
+
+            <%= link_to 'Show', post %>
+
+            <% if current_page?(controller: 'home', action: 'wall') %>
+                <%= link_to 'Edit', edit_post_path(post) %>
+            <% else %>
+                <% pre_like = post.likes.find { |like| like.user_id == current_user.id} %>
+                <% if pre_like %>
+                    <%= button_to 'Unlike', post_like_path(post, pre_like), method: :delete %>
+                <% else %>
+                    <%= button_to 'Like', post_likes_path(post), method: :post %>
+                <% end %>
+            <% end %>
+        </div>
+    <% end %>
+</div>
+
